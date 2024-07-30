@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kidney Care</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+         body {
+            padding: 20px;
+            background-color: #17a2b8;
+         }
+         #submitButton{
+            background-color: #187381;
+         }
+        form {
+
+            max-width: 800px;
+            margin: auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .row-cols-3 > * {
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+        }
+        .btn:hover{
+            border-color: #187381;
+        }
+        body {
+            /*background-image: url('/static/im1.jpg');
+            background-size: cover; /* Cover the entire background */
+            background-position: center; 
+        }
+        label{
+            color: whitesmoke;
+        }
+        h1{
+            color:white;
+        }
+        .custom-input, .form-control,#submitButton{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        input.error {
+            border-color: red !important;
+        }
+        button{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="#">Kidney Care</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/prdt">Predict</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/egfr">EGFR</a>
+              </li>
+              <li class="nav-item" align="right">
+                <a class="nav-link" href="/contact">Contact</a>
+              </li>
+              
+            </ul>
+          </div>
+        </div>
+      </nav>
+        <h1 class="text-center mb-4">Chronic Kidney Disease Prediction</h1>
+        <form method="post" class="container-box" action="/predict" id="predictionForm">
+            <div class="row row-cols-3">
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                <select id="gender" name="gender" class="custom-input" required>
+                    <option value="">-- Select gender --</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="a">Age:</label>
+                <input type="number"  class="custom-input" id="age" name="a" step="any" placeholder="eg:15,25" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="b">Blood Pressure:</label>
+                <input type="number"   class="custom-input" id="blood_pressure" name="b" step="any" placeholder="eg: 80,90" required>
+            </div>
+            
+        </div>
+        <div class="row row-cols-3">
+            <div class="form-group">
+                <label for="c">Specific Gravity:</label>
+                <input type="number" class="custom-input" id="specific_gravity" name="c" step="any" placeholder="eg:1.025" required>
+            </div>
+            <div class="form-group">
+                <label for="d">Albumin:</label>
+                <input type="number" class="custom-input" id="albumin" name="d" step="any" placeholder="eg:0,1,2" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="e">Sugar:</label>
+                <input type="number" class="custom-input" id="sugar" name="e" step="any" placeholder="eg:0,1,2" required>
+            </div>
+        </div>
+        <div class="row row-cols-3">
+            <div class="form-group">
+                <label for="f">Red Blood Cells:</label>
+                <input type="number" class="form-control" id="red_blood_cells" name="f" placeholder="0 or 1" required>
+            </div>
+            <div class="form-group">
+                <label for="g">Pus Cell:</label>
+                <input type="number" class="form-control" id="pus_cell" name="g" placeholder="0 or 1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="h">Pus Cell Clumps:</label>
+                <input type="number" class="form-control" id="pus_cell_clumps" name="h" placeholder="0 or 1" required>
+            </div>
+            
+            </div>
+            <div class="row row-cols-3">
+                <div class="form-group">
+                    <label for="i">Bacteria:</label>
+                    <input type="number" class="form-control" id="bacteria" name="i" placeholder="0 or 1" required>
+                </div>
+            <div class="form-group">
+                <label for="j">Blood Glucose Random:</label>
+                <input type="number" class="custom-input" id="blood_glucose_random" name="j" step="any" placeholder="eg: 91, 205" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="k">Blood Urea:</label>
+                <input type="number" class="custom-input" id="blood_urea" name="k" step="any" placeholder="eg: 15,40, 90" required>
+            </div>
+            
+            </div>
+            <div class="row row-cols-3">
+                <div class="form-group">
+                    <label for="l">Serum Creatinine:</label>
+                    <input type="number" class="custom-input" id="serum_creatinine" name="l" step="any" placeholder="in mg" required>
+                </div>
+            <div class="form-group">
+                <label for="m">Sodium:</label>
+                <input type="number" class="custom-input" id="sodium" name="m" step="any" placeholder="eg: 111, 120" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="n">Potassium:</label>
+                <input type="number" class="custom-input" id="potassium" name="n" step="any" placeholder="eg: 4.2,5.3" required>
+            </div>
+            </div>
+            <div class="row row-cols-3">
+                <div class="form-group">
+                    <label for="o">Haemoglobin:</label>
+                    <input type="number" class="custom-input" id="haemoglobin" name="o" step="any" placeholder="eg: 10.3,15.5" required>
+                </div>
+            <div class="form-group">
+                <label for="p">Packed Cell Volume:</label>
+                <input type="number" class="custom-input" id="packed_cell_volume" name="p" step="any" placeholder="eg:22,47" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="q">White Blood Cell Count:</label>
+                <input type="number" class="custom-input" id="white_blood_cell_count" name="q" step="any" placeholder="in thousands" required>
+            </div>
+            
+            </div>
+            <div class="row row-cols-3">
+                <div class="form-group">
+                    <label for="r">Red Blood Cell Count:</label>
+                    <input type="number" class="custom-input" id="red_blood_cell_count" name="r" step="any" placeholder="in millions" required>
+                </div>
+            <div class="form-group">
+                <label for="s">Hypertension:</label>
+                <input type="number" class="form-control" id="hypertension" name="s" placeholder="0 or 1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="t">Diabetes Mellitus:</label>
+                <input type="number" class="form-control" id="diabetes_mellitus" name="t" placeholder="0 or 1" required>
+            </div>
+            </div>
+            <div class="row row-cols-3">
+                <div class="form-group">
+                    <label for="u">Coronary Artery Disease:</label>
+                    <input type="number" class="form-control" id="coronary_artery_disease" name="u" placeholder="0 or 1" required>
+                </div>
+            <div class="form-group">
+                <label for="v">Appetite:</label>
+                <input type="number" class="form-control" id="appetite" name="v" placeholder="0 or 1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="w">Pedal Edema:</label>
+                <input type="number" class="form-control" id="peda_edema" name="w" placeholder="0 or 1" required>
+            </div>
+        
+            </div>
+            <div class="row row-cols-3">
+            <div class="form-group">
+                <label for="x">Anemia:</label>
+                <input type="number" class="form-control" id="aanemia" name="x" placeholder="0 or 1" required>
+            </div>
+            <div class="form-group">
+                <label for="x"></label>
+            <button type="submit" class="btn btn-primary" id="submitButton">Predict</button>
+            </div>
+        </form>
+        <!-- Bootstrap JavaScript -->
+        <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>-->
+        <script>
+            function validateInput(input) {
+                // Get the input value
+                let value = input.value;
+    
+                // If the value is not 0 or 1, reset the input value
+                if (value !== '0' && value !== '1') {
+                    input.value = '';
+                }
+            }
+            // Add event listeners for all input fields with class 'form-control'
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('input', function() {
+                    validateInput(this);
+                });
+                function validateAge(input) {
+            // Get the input value
+            let value = input.value;
+    
+            // If the value is not within the range of 0 to 120, reset the input value
+            if (value < 0 || value > 120) {
+                input.value = '';
+            }
+        }
+    
+        // Add event listener for the age input field
+        document.getElementById('age').addEventListener('input', function() {
+            validateAge(this);
+        });
+            });
+            function validateSg(input) {
+            // Get the input value
+            let value = parseFloat(input.value);
+    
+            // If the value is not within the range of 0 to 120, reset the input value
+            if (value < 1 || value > 1.030 ) {
+                input.value = '';
+            }
+        }
+    
+        // Add event listener for the Specific gravity input field
+        document.getElementById('specific_gravity').addEventListener('input', function() {
+            validateSg(this);
+        });
+        function validateAl(input) {
+            // Get the input value
+            let value = input.value;
+    
+            // If the value is not within the range of 0 to 120, reset the input value
+            if (value < 0 || value > 4 ) {
+                input.value = '';
+            }
+        }
+    
+        // Add event listener for the Specific gravity input field
+        document.getElementById('albumin').addEventListener('input', function() {
+            validateAl(this);
+        });
+        function validateSu(input) {
+            // Get the input value
+            let value = input.value;
+    
+            // If the value is not within the range of 0 to 120, reset the input value
+            if (value < 0 || value > 5 ) {
+                input.value = '';
+            }
+        }
+    
+        // Add event listener for the Specific gravity input field
+        document.getElementById('sugar').addEventListener('input', function() {
+            validateSu(this);
+        });
+        document.getElementById('submitButton').addEventListener('click', function(event) {
+                // Prevent form submission
+                event.preventDefault();
+                
+                // Remove previous error classes
+                document.querySelectorAll('.form-control').forEach(input => {
+                    input.classList.remove('error');
+                });
+    
+                // Validate required fields
+                let formValid = true;
+                document.querySelectorAll('[required]').forEach(input => {
+                    if (!input.value.trim()) {
+                        input.classList.add('error');
+                        formValid = false;
+                    }
+                });
+    
+                // If form is valid, submit the form
+                if (formValid) {
+                    document.getElementById('predictionForm').submit();
+                }
+            });
+        </script>
+    </body>
+    </html>

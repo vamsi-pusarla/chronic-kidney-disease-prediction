@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eGFR Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Your existing CSS styles */
+        .container-box {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: rgba(170, 17, 162, 0.533);
+            background-image: url("/static/kidneys.jpeg");
+          background-size: cover; /* Cover the entire background */
+            background-position: center;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #submitButton {
+            width: 100%;
+            padding: 10px;
+            background-color: lightskyblue;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #submitButton:hover {
+            background-color: blue;
+            /* background-color: white; */
+            
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-4 {
+            margin-bottom: 20px;
+        }
+
+        #egfrResult {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 53%;
+            border-collapse: collapse;
+            margin-top: 20px;
+		margin: 0 auto; 
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #17a2b8;
+        }
+        .contain{
+            text-align: center;
+        }
+        .jumbotron {
+      background-color: #17a2b8;
+      color: #fff;
+    }
+    .btn{
+    /* width: 500px; */
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    
+   }
+   .btn:hover{
+    background-color: #1ab3cb;
+  }
+  a:hover{
+    text-decoration: none;
+  }
+  #ageError,#creatinineError,#genderError{
+    color: red;
+  }
+    </style>
+</head>
+<body>
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="contain">
+          <a class="navbar-brand" href="#">Kidney Care</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/prdt">Predict</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="/egfr">egfr_calculator</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav> -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="#">Kidney Care</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/prdt">Predict</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="/egfr">EGFR</a>
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" href="/contact">Contact</a>
+              </li>
+             
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="jumbotron text-justify">
+        <h1 style="text-align: center;">estimated glomolecular filtration rate (eGFR)</h1>
+        <p style="text-align: center;">The estimated glomerular filtration rate (eGFR) is a measure used to assess kidney function. It indicates how well the kidneys are filtering waste from the blood, measured in milligrams per decilitre (mg/dl). eGFR values help diagnose and classify chronic kidney disease (CKD) severity, with higher values indicating better kidney function and lower values suggesting decreased function. Monitoring eGFR over time is crucial for managing CKD and preventing complications.</p>
+      </div>
+      <form method="post" class="container-box" id="egfrForm">
+        <label for="ag">Age:</label>
+        <input type="number" name="ag" id="ageInput" required>
+        <span class="error-message" id="ageError"></span> <!-- Placeholder for age error message -->
+        <label for="gender">Select Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="">-- Select gender --</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <span class="error-message" id="genderError"></span> <!-- Placeholder for gender error message -->
+        <label for="sc">Serum Creatinine:</label>
+        <input type="number" name="sc" id="creatinineInput" required>
+        <span class="error-message" id="creatinineError"></span> <!-- Placeholder for creatinine error message -->
+        <button type="button" id="submitButton">Calculate</button>
+    </form>
+    <div class="text-center" id="egfrResult"></div><br>
+
+    <!-- Table with eGFR data -->
+    <table>
+        <tr>
+            <th>Stage</th>
+            <th>GFR*</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>90+</td>
+            <td>Normal kidney function but urine findings or structural abnormalities or genetic trait point to kidney disease</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>60-89</td>
+            <td>Mildly reduced kidney function, and other findings (as for stage 1) point to kidney disease</td>
+        </tr>
+        <tr>
+            <td>3A</td>
+            <td>45-59</td>
+            <td>Moderately reduced kidney function</td>
+        </tr>
+        <tr>
+            <td>3B</td>
+            <td>30-44</td>
+            <td>Moderately reduced kidney function</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>15-29</td>
+            <td>Severely reduced kidney function</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>&lt;15 or on dialysis</td>
+            <td>Very severe, or end-stage kidney failure</td>
+        </tr>
+    </table>
+
+    <script>
+        document.getElementById('submitButton').addEventListener('click', function() {
+            var age = parseInt(document.getElementById('ageInput').value);
+            var gender = document.getElementById('gender').value;
+            var creatinine = parseFloat(document.getElementById('creatinineInput').value);
+            var ageErrorElement = document.getElementById('ageError');
+            var genderErrorElement = document.getElementById('genderError');
+            var creatinineErrorElement = document.getElementById('creatinineError');
+            
+            // Reset error messages
+            ageErrorElement.innerText = '';
+            genderErrorElement.innerText = '';
+            creatinineErrorElement.innerText = '';
+            
+            // Validation
+            if (isNaN(age)) {
+                ageErrorElement.innerText = 'Please enter your age.';
+                return;
+            }
+            if (age>120 || age <= 0) {
+                ageErrorElement.innerText = 'Please enter a valid age.';
+                return;
+            }
+            if (gender === '') {
+                genderErrorElement.innerText = 'Please select a gender.';
+                return;
+            }
+            if (isNaN(creatinine) || creatinine <= 0) {
+                creatinineErrorElement.innerText = 'Please enter your serum creatinine value.';
+                return;
+            }
+            if (creatinine>10 || creatinine <= 0) {
+                creatinineErrorElement.innerText = 'Please enter a valid serum creatinine value.';
+                return;
+            }
+            // Calculate eGFR and display result
+            var egfr_ml = calculateEGFR(age, gender, creatinine);
+            var egfrResultElement = document.getElementById('egfrResult');
+            egfrResultElement.innerText = "Estimated eGFR: " + egfr_ml.toFixed(2) + " mg/dL";
+        });
+
+        function calculateEGFR(age, gender, creatinine_mgdl) {
+    var factor = (gender.toLowerCase() === 'male') ? ((creatinine_mgdl <= 0.7) ? 141 : 144) : ((creatinine_mgdl <= 0.7) ? 141 : 144);
+    var egfr;
+    if (creatinine_mgdl <= 0.7) {
+        egfr = (factor * Math.pow((creatinine_mgdl / 0.9), -0.411)) * Math.pow(Math.min(age / 60, 1), 0.411) * Math.pow(Math.max(age / 60, 1), -0.329);
+    } else {
+        egfr = (factor * Math.pow((creatinine_mgdl / 0.9), -1.209)) * Math.pow(Math.min(age / 60, 1), 0.411) * Math.pow(Math.max(age / 60, 1), -0.329);
+    }
+    return egfr;
+}
+    </script>
+</body>
+</html>
